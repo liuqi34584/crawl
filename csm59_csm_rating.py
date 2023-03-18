@@ -4,10 +4,8 @@ import json
 import matplotlib.font_manager as font_manager
 import pandas as pd
 #显示matplotlib生成的图形
-%matplotlib inline
 
-
-df = pd.read_json('work/viewing_infos.json',dtype = {'broadcastDate' : str})
+df = pd.read_json('./paddle/work/viewing_infos.json',dtype = {'broadcastDate' : str})
 #print(df)
 
 broadcastDate_list = df['broadcastDate']
@@ -25,5 +23,5 @@ plt.plot(broadcastDate_list,csm59_rating_list,label = "CSM59城市网收视率")
 plt.plot(broadcastDate_list,csm_rating_list,label = "CSM全国网收视率") 
 plt.legend()
 plt.grid() 
-plt.savefig('/home/aistudio/work/chart02.jpg')
+plt.savefig('./result/chart02.jpg')
 plt.show()

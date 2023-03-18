@@ -3,11 +3,10 @@ import numpy as np
 import json
 import matplotlib.font_manager as font_manager
 import pandas as pd
+
 #显示matplotlib生成的图形
-%matplotlib inline
 
-
-df = pd.read_json('work/viewing_infos.json',dtype = {'broadcastDate' : str})
+df = pd.read_json('./paddle/work/viewing_infos.json',dtype = {'broadcastDate' : str})
 #print(df)
 
 broadcastDate_list = df['broadcastDate']
@@ -22,5 +21,5 @@ plt.xticks(rotation=45,fontsize=20)
 plt.yticks(fontsize=20)
 plt.plot(broadcastDate_list,csm59_rating_list) 
 plt.grid() 
-plt.savefig('/home/aistudio/work/chart01.jpg')
+plt.savefig('./result/chart01.jpg')
 plt.show()

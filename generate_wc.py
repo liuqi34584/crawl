@@ -1,6 +1,11 @@
+import sys
+sys.path.append('./external-libraries')
 import jieba
 import collections
-import wordcloud
+import re
+import matplotlib.pyplot as plt
+from paddle.external_libraries import wordcloud
+import pandas as pd
 
 def generate_wc(string_data):
     # 文本预处理
@@ -12,10 +17,10 @@ def generate_wc(string_data):
     object_list = []
     remove_words = []
     
-    #读取停用词
-    with open("work/停用词库.txt",'r',encoding='utf-8') as fp:
-        for word in fp:
-            remove_words.append(word.replace("\n",""))
+    # #读取停用词
+    # with open("./paddle/work/停用词库.txt",'r',encoding='utf-8') as fp:
+    #     for word in fp:
+    #         remove_words.append(word.replace("\n",""))
     
     for word in seg_list_exact:                              # 循环读出每个分词
         if word not in remove_words:                         # 如果不在去除词库中
@@ -27,7 +32,7 @@ def generate_wc(string_data):
     print(word_counts_top20)
     # 词频展示
     wc = wordcloud.WordCloud(
-        font_path='work/simhei.ttf',                         # 设置字体格式
+        font_path='./paddle/work/simhei.ttf',                # 设置字体格式
         background_color="#000000",                          # 设置背景图
         max_words=150,                                       # 最多显示词数
         max_font_size=60,                                    # 字体最大值
@@ -38,11 +43,11 @@ def generate_wc(string_data):
 
     plt.imshow(wc)                                           # 显示词云
     plt.axis('off')                                          # 关闭坐标轴
-    plt.savefig('/home/aistudio/work/wordcloud.jpg')
+    plt.savefig('./result/wordcloud.jpg')
     plt.show()   
 
 
-review_df = pd.read_json('work/actors.json')
+review_df = pd.read_json('./paddle/work/actors.json')
 
 content_str = ""
 for row in review_df.index:
@@ -50,3 +55,4 @@ for row in review_df.index:
     content_str += content
 
 generate_wc(content_str) 
+

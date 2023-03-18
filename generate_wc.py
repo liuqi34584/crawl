@@ -1,11 +1,14 @@
-import sys
-sys.path.append('./external-libraries')
 import jieba
 import collections
 import re
 import matplotlib.pyplot as plt
-from paddle.external_libraries import wordcloud
+import wordcloud
 import pandas as pd
+from crawl_wiki_data import crawl_wiki_data
+from crawl_wiki_data import crawl_everyone_wiki_urls
+from crawl_wiki_data import crawl_viewing_data
+from crawl_wiki_data import parse_viewing_data
+
 
 def generate_wc(string_data):
     # 文本预处理
@@ -17,10 +20,6 @@ def generate_wc(string_data):
     object_list = []
     remove_words = []
     
-    # #读取停用词
-    # with open("./paddle/work/停用词库.txt",'r',encoding='utf-8') as fp:
-    #     for word in fp:
-    #         remove_words.append(word.replace("\n",""))
     
     for word in seg_list_exact:                              # 循环读出每个分词
         if word not in remove_words:                         # 如果不在去除词库中
@@ -41,18 +40,70 @@ def generate_wc(string_data):
     )
     wc.generate_from_frequencies(word_counts)                # 从字典生成词云
 
-    plt.imshow(wc)                                           # 显示词云
-    plt.axis('off')                                          # 关闭坐标轴
-    plt.savefig('./result/wordcloud.jpg')
-    plt.show()   
+    return wc
 
 
-review_df = pd.read_json('./paddle/work/actors.json')
 
-content_str = ""
-for row in review_df.index:
-    content = review_df.loc[row,'role_escription']
-    content_str += content
+def main():
+    crawl_wiki_data()  # 爬取百度百科中《隐秘而伟大》中所有演员信息，返回页面数据
+    crawl_everyone_wiki_urls()  # 爬取每个演员的百度百科页面的信息，并进行保存
 
-generate_wc(content_str) 
+    viewing_table = crawl_viewing_data()  # 爬取百度百科中《隐秘而伟大》收视情况，返回html   
+    parse_viewing_data(viewing_table)  # 对《隐秘而伟大》的收视情况table进行解析，并保存
+     
+    print("所有信息爬取完成！")
+
+
+    df = pd.read_json('./viewing_infos.json',dtype = {'broadcastDate' : str})
+    broadcastDate_list = df['broadcastDate']
+    csm59_rating_list = df['csm59_rating']
+    csm_rating_list = df['csm_rating']
+
+    df = pd.read_json('./viewing_infos.json',dtype = {'broadcastDate' : str})
+    broadcastDate_list = df['broadcastDate']
+    csm59_rating_list = df['csm59_rating']
+
+    review_df = pd.read_json('./actors.json')
+    content_str = ""
+    for row in review_df.index:
+        content = review_df.loc[row,'role_escription']
+        content_str += content
+
+    wc = generate_wc(content_str) 
+
+    plt.figure(figsize=(18, 6))
+    plt.rcParams['font.sans-serif'] = ['SimHei']  # 指定默认字体
+    plt.grid() 
+
+    plt.subplot(1, 3, 1)
+    plt.title("《隐秘而伟大》收视率变化趋势",fontsize=10) 
+    plt.xlabel("播出日期",fontsize=10) 
+    plt.ylabel("收视率%",fontsize=10) 
+    plt.xticks(rotation=45,fontsize=5)
+    plt.yticks(fontsize=10)
+    plt.plot(broadcastDate_list,csm59_rating_list,label = "CSM59城市网收视率") 
+    plt.plot(broadcastDate_list,csm_rating_list,label = "CSM全国网收视率") 
+    plt.legend()
+    plt.savefig('./chart02.jpg')
+
+    plt.subplot(1, 3, 2)
+    plt.title("《隐秘而伟大》CSM59城市网收视率变化趋势",fontsize=10) 
+    plt.xlabel("播出日期",fontsize=10) 
+    plt.ylabel("收视率%",fontsize=10) 
+    plt.xticks(rotation=45,fontsize=5)
+    plt.yticks(fontsize=10)
+    plt.plot(broadcastDate_list,csm59_rating_list) 
+    plt.savefig('./chart01.jpg')
+
+    plt.subplot(1, 3, 3)
+    plt.title("词云",fontsize=10) 
+    plt.imshow(wc)  # 显示词云
+    plt.axis('off')  # 关闭坐标轴
+    plt.savefig('./wordcloud.jpg')
+
+    plt.show()
+
+
+if __name__ == '__main__': 
+    main()
 

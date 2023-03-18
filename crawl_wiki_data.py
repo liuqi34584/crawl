@@ -1,9 +1,6 @@
 import json
-import re
 import requests
-import datetime
 from bs4 import BeautifulSoup
-import os
 
 # 本文件用于数据爬取
 
@@ -19,6 +16,8 @@ def crawl_wiki_data():
     #url='https://baike.baidu.com/item/隐秘而伟大'  
     url = 'https://baike.baidu.com/item/%E9%9A%90%E7%A7%98%E8%80%8C%E4%BC%9F%E5%A4%A7/22454129?fr=aladdin'                       
 
+    actors = []
+
     try:
         response = requests.get(url,headers=headers)
         #将一段文档传入BeautifulSoup的构造方法,就能得到一个文档的对象, 可以传入一段字符串
@@ -26,8 +25,8 @@ def crawl_wiki_data():
         #返回class="lemmaWgt-roleIntroduction"的div,即“角色介绍”下方的div
         roleIntroductions = soup.find('div',{'class':'lemmaWgt-roleIntroduction'})
         all_roleIntroductions = roleIntroductions.find_all('li')
-        print(all_roleIntroductions)
-        actors = []
+        # print(all_roleIntroductions)
+        
         for every_roleIntroduction in all_roleIntroductions:
              actor = {}    
              if every_roleIntroduction.find('div',{'class':'role-actor'}):
@@ -39,8 +38,10 @@ def crawl_wiki_data():
              actors.append(actor)
     except Exception as e:
         print(e)
+
     json_data = json.loads(str(actors).replace("\'","\""))   
-    with open('work/' + 'actors.json', 'w', encoding='UTF-8') as f:
+
+    with open('./' + 'actors.json', 'w', encoding='UTF-8') as f:
         json.dump(json_data, f, ensure_ascii=False)
 
 
@@ -49,12 +50,14 @@ def crawl_everyone_wiki_urls():
     '''
     爬取每个演员的百度百科图片，并保存
     ''' 
-    with open('work/' + 'actors.json', 'r', encoding='UTF-8') as file:
+    with open('./' + 'actors.json', 'r', encoding='UTF-8') as file:
          json_array = json.loads(file.read())
     headers = { 
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36' 
      }  
+    
     actor_infos = []
+
     for star in json_array:
         actor_info = {}       
         name = star['actor_name']
@@ -91,8 +94,9 @@ def crawl_everyone_wiki_urls():
                          actor_info['birth_day'] = birth_day_str[0:birth_day_str.rfind('年')]
         actor_infos.append(actor_info) 
         #将演员个人信息存储到json文件中
-        json_data = json.loads(str(actor_infos).replace("\'","\""))   
-        with open('work/' + 'actor_infos.json', 'w', encoding='UTF-8') as f:
+        json_data = json.loads(str(actor_infos).replace("\'","\""))  
+
+        with open('./' + 'actor_infos.json', 'w', encoding='UTF-8') as f:
             json.dump(json_data, f, ensure_ascii=False)
 
 
@@ -139,7 +143,7 @@ def parse_viewing_data(viewing_table):
             continue
         viewing_data = {}
         tds = trs[i].find_all('td')
-        print(trs[i])
+        # print(trs[i])
         viewing_data["broadcastDate"]= tds[0].text
         viewing_data["csm59_rating"]= tds[1].text
         viewing_data["csm59_rating_share"]= tds[2].text
@@ -150,5 +154,5 @@ def parse_viewing_data(viewing_table):
         viewing_datas.append(viewing_data)
     #将个人信息存储到json文件中
     json_data = json.loads(str(viewing_datas).replace("\'","\""))   
-    with open('work/' + 'viewing_infos.json', 'w', encoding='UTF-8') as f:
+    with open('./' + 'viewing_infos.json', 'w', encoding='UTF-8') as f:
         json.dump(json_data, f, ensure_ascii=False)

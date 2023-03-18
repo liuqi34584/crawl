@@ -41,7 +41,7 @@ def crawl_wiki_data():
 
     json_data = json.loads(str(actors).replace("\'","\""))   
 
-    with open('./' + 'actors.json', 'w', encoding='UTF-8') as f:
+    with open('./work/' + 'actors.json', 'w', encoding='UTF-8') as f:
         json.dump(json_data, f, ensure_ascii=False)
 
 
@@ -50,7 +50,7 @@ def crawl_everyone_wiki_urls():
     '''
     爬取每个演员的百度百科图片，并保存
     ''' 
-    with open('./' + 'actors.json', 'r', encoding='UTF-8') as file:
+    with open('./work/' + 'actors.json', 'r', encoding='UTF-8') as file:
          json_array = json.loads(file.read())
     headers = { 
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36' 
@@ -96,7 +96,7 @@ def crawl_everyone_wiki_urls():
         #将演员个人信息存储到json文件中
         json_data = json.loads(str(actor_infos).replace("\'","\""))  
 
-        with open('./' + 'actor_infos.json', 'w', encoding='UTF-8') as f:
+        with open('./work/' + 'actor_infos.json', 'w', encoding='UTF-8') as f:
             json.dump(json_data, f, ensure_ascii=False)
 
 
@@ -154,5 +154,5 @@ def parse_viewing_data(viewing_table):
         viewing_datas.append(viewing_data)
     #将个人信息存储到json文件中
     json_data = json.loads(str(viewing_datas).replace("\'","\""))   
-    with open('./' + 'viewing_infos.json', 'w', encoding='UTF-8') as f:
+    with open('./work/' + 'viewing_infos.json', 'w', encoding='UTF-8') as f:
         json.dump(json_data, f, ensure_ascii=False)

@@ -31,7 +31,7 @@ def generate_wc(string_data):
     print(word_counts_top20)
     # 词频展示
     wc = wordcloud.WordCloud(
-        font_path='./paddle/work/simhei.ttf',                # 设置字体格式
+        font_path='./work/simhei.ttf',                # 设置字体格式
         background_color="#000000",                          # 设置背景图
         max_words=150,                                       # 最多显示词数
         max_font_size=60,                                    # 字体最大值
@@ -54,16 +54,16 @@ def main():
     print("所有信息爬取完成！")
 
 
-    df = pd.read_json('./viewing_infos.json',dtype = {'broadcastDate' : str})
+    df = pd.read_json('./work/viewing_infos.json',dtype = {'broadcastDate' : str})
     broadcastDate_list = df['broadcastDate']
     csm59_rating_list = df['csm59_rating']
     csm_rating_list = df['csm_rating']
 
-    df = pd.read_json('./viewing_infos.json',dtype = {'broadcastDate' : str})
+    df = pd.read_json('./work/viewing_infos.json',dtype = {'broadcastDate' : str})
     broadcastDate_list = df['broadcastDate']
     csm59_rating_list = df['csm59_rating']
 
-    review_df = pd.read_json('./actors.json')
+    review_df = pd.read_json('./work/actors.json')
     content_str = ""
     for row in review_df.index:
         content = review_df.loc[row,'role_escription']
@@ -84,7 +84,7 @@ def main():
     plt.plot(broadcastDate_list,csm59_rating_list,label = "CSM59城市网收视率") 
     plt.plot(broadcastDate_list,csm_rating_list,label = "CSM全国网收视率") 
     plt.legend()
-    plt.savefig('./chart02.jpg')
+    plt.savefig('./work/chart02.jpg')
 
     plt.subplot(1, 3, 2)
     plt.title("《隐秘而伟大》CSM59城市网收视率变化趋势",fontsize=10) 
@@ -93,13 +93,13 @@ def main():
     plt.xticks(rotation=45,fontsize=5)
     plt.yticks(fontsize=10)
     plt.plot(broadcastDate_list,csm59_rating_list) 
-    plt.savefig('./chart01.jpg')
+    plt.savefig('./work/chart01.jpg')
 
     plt.subplot(1, 3, 3)
     plt.title("词云",fontsize=10) 
     plt.imshow(wc)  # 显示词云
     plt.axis('off')  # 关闭坐标轴
-    plt.savefig('./wordcloud.jpg')
+    plt.savefig('./work/wordcloud.jpg')
 
     plt.show()
 

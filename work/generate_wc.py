@@ -8,7 +8,7 @@ from crawl_wiki_data import crawl_wiki_data
 from crawl_wiki_data import crawl_everyone_wiki_urls
 from crawl_wiki_data import crawl_viewing_data
 from crawl_wiki_data import parse_viewing_data
-
+import matplotlib.font_manager as fm  # 引入自定义字体
 
 def generate_wc(string_data):
     # 文本预处理
@@ -31,10 +31,10 @@ def generate_wc(string_data):
     print(word_counts_top20)
     # 词频展示
     wc = wordcloud.WordCloud(
-        font_path='./work/simhei.ttf',                # 设置字体格式
-        background_color="#000000",                          # 设置背景图
+        font_path= './work/STZHONGS.TTF',                # 设置字体格式
+        background_color="#ffffff",                          # 设置背景图
         max_words=150,                                       # 最多显示词数
-        max_font_size=60,                                    # 字体最大值
+        max_font_size=120,                                    # 字体最大值
         width=707,
         height=499
     )
@@ -71,34 +71,32 @@ def main():
 
     wc = generate_wc(content_str) 
 
+    myfont = fm.FontProperties(fname=r'./work/STZHONGS.TTF') # 设置字体
 
     plt.figure(figsize=(10, 6))
-    plt.rcParams['font.sans-serif'] = ['SimHei']  # 指定默认字体
     plt.grid() 
-    plt.title("《隐秘而伟大》收视率变化趋势",fontsize=10) 
-    plt.xlabel("播出日期",fontsize=10) 
-    plt.ylabel("收视率%",fontsize=20) 
+    plt.title("《隐秘而伟大》收视率变化趋势",fontsize=10,fontproperties=myfont) 
+    plt.xlabel("播出日期",fontsize=10,fontproperties=myfont) 
+    plt.ylabel("收视率%",fontsize=20,fontproperties=myfont) 
     plt.xticks(rotation=45,fontsize=10)
     plt.yticks(fontsize=20)
-    plt.plot(broadcastDate_list,csm59_rating_list,label = "CSM59城市网收视率") 
-    plt.plot(broadcastDate_list,csm_rating_list,label = "CSM全国网收视率") 
+    plt.plot(broadcastDate_list,csm59_rating_list,label = "csm59_rating") 
+    plt.plot(broadcastDate_list,csm_rating_list,label = "csm_rating") 
     plt.legend()
     plt.savefig('./work/chart02.jpg')
 
     plt.figure(figsize=(10, 6))
-    plt.rcParams['font.sans-serif'] = ['SimHei']  # 指定默认字体
     plt.grid() 
-    plt.title("《隐秘而伟大》CSM59城市网收视率变化趋势",fontsize=10) 
-    plt.xlabel("播出日期",fontsize=10) 
-    plt.ylabel("收视率%",fontsize=20) 
+    plt.title("《隐秘而伟大》CSM59城市网收视率变化趋势",fontsize=10,fontproperties=myfont) 
+    plt.xlabel("播出日期",fontsize=10,fontproperties=myfont) 
+    plt.ylabel("收视率%",fontsize=20,fontproperties=myfont) 
     plt.xticks(rotation=45,fontsize=10)
     plt.yticks(fontsize=20)
     plt.plot(broadcastDate_list,csm59_rating_list) 
     plt.savefig('./work/chart01.jpg')
 
     plt.figure(figsize=(10, 6))
-    plt.rcParams['font.sans-serif'] = ['SimHei']  # 指定默认字体
-    plt.title("词云",fontsize=20) 
+    plt.title("词云",fontsize=20,fontproperties=myfont) 
     plt.imshow(wc)  # 显示词云
     plt.axis('off')  # 关闭坐标轴
     plt.savefig('./work/wordcloud.jpg')

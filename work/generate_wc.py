@@ -73,7 +73,7 @@ def main():
 
     myfont = fm.FontProperties(fname=r'./work/STZHONGS.TTF') # 设置字体
 
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(10, 10))
     plt.grid() 
     plt.title("《隐秘而伟大》收视率变化趋势",fontsize=10,fontproperties=myfont) 
     plt.xlabel("播出日期",fontsize=10,fontproperties=myfont) 
@@ -85,7 +85,7 @@ def main():
     plt.legend()
     plt.savefig('./work/chart02.jpg')
 
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(10, 10))
     plt.grid() 
     plt.title("《隐秘而伟大》CSM59城市网收视率变化趋势",fontsize=10,fontproperties=myfont) 
     plt.xlabel("播出日期",fontsize=10,fontproperties=myfont) 

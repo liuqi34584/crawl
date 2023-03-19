@@ -1,8 +1,8 @@
 # 机器学习爬取网页数据
 
-## 本地编译遇到的问题
+## 编译遇到的问题
 
-## 1.如何external_libraries的库文件完成编译
+## 1.如何利用external_libraries的库文件完成编译
 
 因为paddle环境里的包存在文件缺失问题，不建议这么做
 
@@ -59,3 +59,26 @@ plt.ylabel("收视率%",fontsize=20,fontproperties=myfont)
 plt.show()
 ```
 
+## 3.本项目代码移植到paddle
+### 1 环境问题参考第一点
+### 2 文件
+请将本项目中，这两个文件上传到work目录下
+* crawl_wiki_data.py 
+* STZHONGS.TTF
+
+然后，将generate_wc.py中的代码复制到paddle环境notebook中
+ ### 3 适应编译
+ 解决本地环境与paddle环境的差异，在paddle的Notebook中，将
+ ```python
+from crawl_wiki_data import crawl_wiki_data
+from crawl_wiki_data import crawl_everyone_wiki_urls
+from crawl_wiki_data import crawl_viewing_data
+from crawl_wiki_data import parse_viewing_data
+ ```
+修改为
+ ```python
+from work.crawl_wiki_data import crawl_wiki_data
+from work.crawl_wiki_data import crawl_everyone_wiki_urls
+from work.crawl_wiki_data import crawl_viewing_data
+from work.crawl_wiki_data import parse_viewing_data
+ ```

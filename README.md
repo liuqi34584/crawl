@@ -15,10 +15,10 @@
 
 ### paddle编译：
 进入paddle环境后，打开Notebook旁边的终端窗口，依次输入以下命令，安装缺失的包：
-*   pip install jieba
 *   pip install wordcloud
-*   pip install bs4
-*   pip install lxml
+  
+(注意：这是虚拟环境，每次重新进入paddle都要安装这个包)
+
 
 ## 2.运行代码时偶尔find_all()函数报错
 办法：这个问题在于翻墙，如果以下网站能够访问，就不会报错。[点击这里《隐秘而伟大》](https://baike.baidu.com/item/%E9%9A%90%E7%A7%98%E8%80%8C%E4%BC%9F%E5%A4%A7/22454129?fr=aladdin) 报错请先自行解决网络问题。

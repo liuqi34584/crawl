@@ -89,12 +89,12 @@ from work.crawl_wiki_data import parse_viewing_data
 
 爬虫结果词云展示如图
 
-![img](./work/wordcloud.jpg)
+![avatar](./work/wordcloud.jpg)
 
 爬虫结果趋势图：
 
-![img](./work/chart01.jpg)
-![img](./work/chart02.jpg)
+![avatar](./work/chart01.jpg)
+![avatar](./work/chart02.jpg)
 
 
 <br/>
